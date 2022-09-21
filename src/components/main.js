@@ -1,5 +1,6 @@
+import React, {useEffect, useState} from 'react';
 import Chat from "./chat";
-import {useEffect, useState} from "react";
+import {Container} from "../utils/styles";
 
 const Main = () => {
     const [userName, setUserName] = useState(null);
@@ -7,11 +8,10 @@ const Main = () => {
     const [allMessages, setAllMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
 
-
     useEffect(() => {
         const currentUserFromStorage = sessionStorage.getItem('currentUserData')
-        setCurrentUser(JSON.parse(currentUserFromStorage));
         const allMessagesFromStorage = localStorage.getItem('allMessages')
+        setCurrentUser(JSON.parse(currentUserFromStorage));
         setAllMessages(JSON.parse(allMessagesFromStorage))
         window.addEventListener('storage', (event) => {
             if (event.storageArea !== localStorage && event.storageArea !== sessionStorage ) return;
@@ -21,9 +21,31 @@ const Main = () => {
             }
 
         });
-
     }, [])
-    const createCurrentUser = () => {
+
+
+    const sendMessage = () => {
+        const messageData = {
+            user: currentUser,
+            text: newMessage
+        }
+        const allMessagesFromLocal = JSON.parse(localStorage.getItem('allMessages'));
+        const tempAllMessages =  allMessagesFromLocal || [];
+
+        tempAllMessages.push(messageData);
+        setAllMessages(tempAllMessages);
+        setNewMessage('');
+        window.localStorage.setItem("allMessages", JSON.stringify(tempAllMessages));
+    }
+    const getRandomColor = () => {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    const addNewUser = () => {
         if (userName) {
             const allUsersFromLocal = JSON.parse(localStorage.getItem('allUsersData'));
             const currentUserFound = allUsersFromLocal ? allUsersFromLocal.find((user => user.name === userName)) : null
@@ -36,43 +58,25 @@ const Main = () => {
                 tempCurrentUser = {
                     name: userName,
                     color: getRandomColor()
-
                 }
                 tempAllUsers.push(tempCurrentUser);
             }
             window.sessionStorage.setItem("currentUserData", JSON.stringify(tempCurrentUser));
             window.localStorage.setItem("allUsersData", JSON.stringify(tempAllUsers));
+            setCurrentUser(tempCurrentUser)
+            setAllMessages(JSON.parse(localStorage.getItem('allMessages')));
+            setNewMessage('');
         }
 
     }
 
-    const getRandomColor = () => {
-        let letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
-    const sendMessage = () => {
-        const newMessage = {
-            user: currentUser,
-            text: newMessage
-        }
-        const allMessagesFromLocal = JSON.parse(localStorage.getItem('allMessages'));
-        const tempAllMessages =  allMessagesFromLocal || [];
 
-        tempAllMessages.push(newMessage);
-        setAllMessages(tempAllMessages);
-        setNewMessage('');
-        window.localStorage.setItem("allMessages", JSON.stringify(tempAllMessages));
-    }
+    return (
+        <Container>
+            <Chat newMessage={newMessage} currentUser={currentUser} setUserName={setUserName} addNewUser={addNewUser} allMessages={allMessages} setNewMessage={setNewMessage} sendMessage={sendMessage}/>
+        </Container>
 
-
-    return(
-        <div>
-            <Chat newMessage={newMessage} currentUser={currentUser} setUserName={setUserName} setCurrentUser={setCurrentUser} allMessages={allMessages} setCurrentMessage={setCurrentMessage} sendMessage={sendMessage}/>
-
-        </div>)
+    );
 }
+
 export default Main;

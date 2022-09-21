@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const Chat = ({currentMessage, currentUser, setUserName, createCurrentUser, allMessages, setCurrentMessage, sendMessage}) => {
+const Chat = ({newMessage, currentUser, setUserName, addNewUser, allMessages, setNewMessage, sendMessage}) => {
     const chatPerPage = 25;
     const [next, setNext] = useState(chatPerPage)
     useEffect(() => {
@@ -11,6 +11,7 @@ const Chat = ({currentMessage, currentUser, setUserName, createCurrentUser, allM
         const addedPageCount = (allMessages.length - next) < chatPerPage ? allMessages.length - next : chatPerPage;
         setNext(next + addedPageCount);
     }
+
     return (
         <section style={{backgroundColor: '#eee', height: '100vh' }}>
             <div className="container py-2">
@@ -23,14 +24,14 @@ const Chat = ({currentMessage, currentUser, setUserName, createCurrentUser, allM
                                 className="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
                                 style={{borderTopLeftRadius: '15px', borderTopRightRadius: '15px'}}>
                                 <i className="fas fa-angle-left"/>
-                                <p className="mb-0 fw-bold">Live chat</p>
+                                <p className="mb-0 fw-bold">My Web chat</p>
                                 <i className="fas fa-times"/>
                             </div>
                             <div className="chat-body card-body">
                                 {!currentUser && <div>
                                     <label htmlFor="">Enter your username</label>
-                                    <input className="form-control my-1" onChange={(event) => setUserName(event.target.value)}  type="text"/>
-                                    <button className="btn btn-primary w-100 my-2" onClick={setCurrentUser} >Login</button>
+                                    <input className="form-control my-1" onChange={(event) => setUserName(event.target.value)} type="text"/>
+                                    <button className="btn btn-primary w-100 my-2" onClick={addNewUser} >Login</button>
 
                                 </div>}
                                 {currentUser && <>
@@ -79,15 +80,15 @@ const Chat = ({currentMessage, currentUser, setUserName, createCurrentUser, allM
 
 
                             </div>
-                            {currentUserData && <div className="row p-3 mb-2 justify-content-between g-2 w-100">
+                            {currentUser && <div className="row p-3 mb-2 justify-content-between g-2 w-100">
                                 <div className="col-9">
-                                           <textarea value={currentMessage}
-                                                     onChange={(event) => setCurrentMessage(event.target.value)}
+                                           <textarea value={newMessage}
+                                                     onChange={(event) => setNewMessage(event.target.value)}
                                                      placeholder="Type your message" className="form-control"
                                                      id="textAreaExample" rows="1"/>
                                 </div>
                                 <div className="col-3">
-                                    <button onClick={sendMessage} disabled={!currentMessage}
+                                    <button onClick={sendMessage} disabled={!newMessage}
                                             className="btn btn-primary">Send
                                     </button>
                                 </div>
