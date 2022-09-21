@@ -71,33 +71,8 @@ const Main = () => {
 
     return(
         <div>
-            <h1>Simple Web Chat</h1>
+            <Chat newMessage={newMessage} currentUser={currentUser} setUserName={setUserName} setCurrentUser={setCurrentUser} allMessages={allMessages} setCurrentMessage={setCurrentMessage} sendMessage={sendMessage}/>
 
-            <div>
-                {!currentUser && <div>
-                    <label htmlFor="">Enter your username</label>
-                    <input className="form-control my-1" onChange={(event) => setUserName(event.target.value)}  type="text"/>
-                    <button className="btn btn-primary w-100 my-2" onClick={createCurrentUser} >Login</button>
-
-                </div>}
-                {currentUser && <>
-                    {allMessages && <div>
-                        {allMessages.map((message, index) =>
-                            <div key={index}>
-                                <p style={{color: message.user.color}}>{message.user.name === currentUser.name ? 'Me' : message.user.name} : {message.text}</p>
-                            </div>
-                        )}
-
-                    </div>}
-                    <div>
-                        <textarea onChange={(event) => setNewMessage(event.target.value)}/>
-                        <button className="btn btn-primary" onClick={sendMessage}>Send</button>
-                    </div>
-                </>}
-
-                    </div>
-
-            <Chat/>
         </div>)
 }
 export default Main;
