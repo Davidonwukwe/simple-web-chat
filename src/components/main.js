@@ -5,7 +5,7 @@ const Main = () => {
     const [userName, setUserName] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [allMessages, setAllMessages] = useState([]);
-    const [currentMessage, setCurrentMessage] = useState('');
+    const [newMessage, setNewMessage] = useState('');
 
 
     useEffect(() => {
@@ -47,14 +47,14 @@ const Main = () => {
     const sendMessage = () => {
         const newMessage = {
             user: currentUser,
-            text: currentMessage
+            text: newMessage
         }
         const allMessagesFromLocal = JSON.parse(localStorage.getItem('allMessages'));
         const tempAllMessages =  allMessagesFromLocal || [];
 
         tempAllMessages.push(newMessage);
         setAllMessages(tempAllMessages);
-        setCurrentMessage('');
+        setNewMessage('');
         window.localStorage.setItem("allMessages", JSON.stringify(tempAllMessages));
     }
 
@@ -80,7 +80,7 @@ const Main = () => {
 
                     </div>}
                     <div>
-                        <textarea onChange={(event) => setCurrentMessage(event.target.value)}/>
+                        <textarea onChange={(event) => setNewMessage(event.target.value)}/>
                         <button className="btn btn-primary" onClick={sendMessage}>Send</button>
                     </div>
                 </>}
