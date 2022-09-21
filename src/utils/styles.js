@@ -79,7 +79,9 @@ export const Container = styled.div`
   .chat-body {
     height: 75vh;
     overflow-y: scroll;
-    //scrollbar-width: thin;
+    
+  }
+  #textArea, .chat-body {
     &::-webkit-scrollbar {
       width: 4px;
       border-radius: 1px;
@@ -95,6 +97,15 @@ export const Container = styled.div`
       background-color: grey;
       outline: 1px solid slategrey;
     }
+  }
+  .light-blue-bg {
+    background-color: #39c0ed;
+    color: white;
+  }
+  .load-more {
+    color: #39c0ed;
+    text-decoration: none;
+    cursor: pointer;
   }
   
 

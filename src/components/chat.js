@@ -31,12 +31,12 @@ const Chat = ({newMessage, currentUser, setUserName, addNewUser, allMessages, se
                                 {!currentUser && <div>
                                     <label htmlFor="">Enter your username</label>
                                     <input className="form-control my-1" onChange={(event) => setUserName(event.target.value)} type="text"/>
-                                    <button className="btn btn-primary w-100 my-2" onClick={addNewUser} >Login</button>
+                                    <button className="btn btn-primary border-0 light-blue-bg w-100 my-2" onClick={addNewUser} >Enter</button>
 
                                 </div>}
                                 {currentUser && <>
                                     {allMessages && <>
-                                        {next < allMessages?.length && <button className="btn btn-sm mb-2 btn-primary" onClick={handleLoadMore}>Load more</button>}
+                                        {next < allMessages?.length && <p><a className="mb-2 load-more  btn-primary" onClick={handleLoadMore}>Load more</a></p>}
                                         {allMessages.slice(allMessages.length - next).map((message, index) =>
                                             <div key={index}>
                                                 {(message.user.name === currentUser?.name) ?
@@ -85,11 +85,11 @@ const Chat = ({newMessage, currentUser, setUserName, addNewUser, allMessages, se
                                            <textarea value={newMessage}
                                                      onChange={(event) => setNewMessage(event.target.value)}
                                                      placeholder="Type your message" className="form-control"
-                                                     id="textAreaExample" rows="1"/>
+                                                     id="textArea" rows="1"/>
                                 </div>
                                 <div className="col-3">
                                     <button onClick={sendMessage} disabled={!newMessage}
-                                            className="btn btn-primary">Send
+                                            className="btn btn-primary border-0 light-blue-bg">Send
                                     </button>
                                 </div>
 
