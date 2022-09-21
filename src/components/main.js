@@ -4,6 +4,9 @@ import {useEffect, useState} from "react";
 const Main = () => {
     const [userName, setUserName] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
+    const [allMessages, setAllMessages] = useState([]);
+    const [currentMessage, setCurrentMessage] = useState('');
+
 
     useEffect(() => {
         const currentUserFromStorage = sessionStorage.getItem('currentUserData')
@@ -41,6 +44,20 @@ const Main = () => {
         }
         return color;
     }
+    const sendMessage = () => {
+        const newMessage = {
+            user: currentUser,
+            text: currentMessage
+        }
+        const allMessagesFromLocal = JSON.parse(localStorage.getItem('allMessages'));
+        const tempAllMessages =  allMessagesFromLocal || [];
+
+        tempAllMessages.push(newMessage);
+        setAllMessages(tempAllMessages);
+        setCurrentMessage('');
+        window.localStorage.setItem("allMessages", JSON.stringify(tempAllMessages));
+    }
+
 
     return(
         <div>
@@ -53,7 +70,22 @@ const Main = () => {
                     <button className="btn btn-primary w-100 my-2" onClick={createCurrentUser} >Login</button>
 
                 </div>}
-            </div>
+                {currentUser && <>
+                    {allMessages && <div>
+                        {allMessages.map((message, index) =>
+                            <div key={index}>
+                                <p style={{color: message.user.color}}>{message.user.name === currentUser.name ? 'Me' : message.user.name} : {message.text}</p>
+                            </div>
+                        )}
+
+                    </div>}
+                    <div>
+                        <textarea onChange={(event) => setCurrentMessage(event.target.value)}/>
+                        <button className="btn btn-primary" onClick={sendMessage}>Send</button>
+                    </div>
+                </>}
+
+                    </div>
 
             <Chat/>
         </div>)
