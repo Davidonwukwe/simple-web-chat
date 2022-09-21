@@ -11,6 +11,16 @@ const Main = () => {
     useEffect(() => {
         const currentUserFromStorage = sessionStorage.getItem('currentUserData')
         setCurrentUser(JSON.parse(currentUserFromStorage));
+        const allMessagesFromStorage = localStorage.getItem('allMessages')
+        setAllMessages(JSON.parse(allMessagesFromStorage))
+        window.addEventListener('storage', (event) => {
+            if (event.storageArea !== localStorage && event.storageArea !== sessionStorage ) return;
+
+            if (event.key === 'allMessages') {
+                setAllMessages(JSON.parse(event.newValue));
+            }
+
+        });
 
     }, [])
     const createCurrentUser = () => {
