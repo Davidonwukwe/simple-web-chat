@@ -1,7 +1,16 @@
 import React, {useEffect, useState} from "react";
 
 const Chat = ({currentMessage, currentUser, setUserName, createCurrentUser, allMessages, setCurrentMessage, sendMessage}) => {
-
+    const chatPerPage = 25;
+    const [next, setNext] = useState(chatPerPage)
+    useEffect(() => {
+        const objDiv = document.querySelector(".chat-body");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }, [allMessages])
+    const handleLoadMore = () => {
+        const addedPageCount = (allMessages.length - next) < chatPerPage ? allMessages.length - next : chatPerPage;
+        setNext(next + addedPageCount);
+    }
     return (
         <section style={{backgroundColor: '#eee', height: '100vh' }}>
             <div className="container py-2">
@@ -18,17 +27,18 @@ const Chat = ({currentMessage, currentUser, setUserName, createCurrentUser, allM
                                 <i className="fas fa-times"/>
                             </div>
                             <div className="chat-body card-body">
-                                {!currentUserData && <div>
+                                {!currentUser && <div>
                                     <label htmlFor="">Enter your username</label>
-                                    <input className="form-control my-1" onChange={(event) => setCurrentUserName(event.target.value)}  type="text"/>
+                                    <input className="form-control my-1" onChange={(event) => setUserName(event.target.value)}  type="text"/>
                                     <button className="btn btn-primary w-100 my-2" onClick={setCurrentUser} >Login</button>
 
                                 </div>}
-                                {currentUserData && <>
+                                {currentUser && <>
                                     {allMessages && <>
-                                        {allMessages.map((message, index) =>
+                                        {next < allMessages?.length && <button className="btn btn-sm mb-2 btn-primary" onClick={handleLoadMore}>Load more</button>}
+                                        {allMessages.slice(allMessages.length - next).map((message, index) =>
                                             <div key={index}>
-                                                {(message.user.name === currentUserData?.name) ?
+                                                {(message.user.name === currentUser?.name) ?
                                                     <div className="d-flex flex-row justify-content-end mb-4">
                                                         <div>
                                                             <div className="p-3 me-3"
