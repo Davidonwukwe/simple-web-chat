@@ -5,7 +5,11 @@ const Main = () => {
     const [userName, setUserName] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
 
+    useEffect(() => {
+        const currentUserFromStorage = sessionStorage.getItem('currentUserData')
+        setCurrentUser(JSON.parse(currentUserFromStorage));
 
+    }, [])
     const createCurrentUser = () => {
         if (userName) {
             const allUsersFromLocal = JSON.parse(localStorage.getItem('allUsersData'));
