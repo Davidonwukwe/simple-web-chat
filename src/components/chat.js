@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
+import {ChatContext} from "../contexts/ChatContext";
 
-const Chat = ({newMessage, currentUser, setUserName, addNewUser, allMessages, setNewMessage, sendMessage}) => {
+const Chat = () => {
+    const { newMessage, currentUser, setUserName, addNewUser, allMessages, setNewMessage, sendMessage} = useContext(ChatContext);
     const chatPerPage = 25;
     const [next, setNext] = useState(chatPerPage)
     useEffect(() => {

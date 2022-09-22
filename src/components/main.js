@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Chat from "./chat";
 import {Container} from "../utils/styles";
+import {ChatContext} from "../contexts/ChatContext";
 
 const Main = () => {
     const [userName, setUserName] = useState(null);
@@ -73,7 +74,9 @@ const Main = () => {
 
     return (
         <Container>
-            <Chat newMessage={newMessage} currentUser={currentUser} setUserName={setUserName} addNewUser={addNewUser} allMessages={allMessages} setNewMessage={setNewMessage} sendMessage={sendMessage}/>
+            <ChatContext.Provider value={{newMessage, currentUser, setUserName, addNewUser, allMessages, setNewMessage, sendMessage}}>
+                <Chat/>
+            </ChatContext.Provider>
         </Container>
 
     );
