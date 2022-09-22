@@ -21,7 +21,7 @@ const Chat = () => {
     }
 
     return (
-        <section style={{backgroundColor: '#eee', height: '100vh' }}>
+        <section id="chatSection">
             <div className="container py-2">
 
                 <div className="row d-flex justify-content-center">

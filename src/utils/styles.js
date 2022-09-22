@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  #chatSection {
+    background-color: #eee; 
+    height: 100%;
+  }
   #chat1 .form-outline .form-control~.form-notch div {
     pointer-events: none;
     border: 1px solid #eee;
