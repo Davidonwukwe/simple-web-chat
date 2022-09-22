@@ -107,6 +107,9 @@ export const Container = styled.div`
     text-decoration: none;
     cursor: pointer;
   }
+  .message-time {
+    font-size: 8px;
+  }
   
 
 `

@@ -13,6 +13,12 @@ const Chat = () => {
         const addedPageCount = (allMessages.length - next) < chatPerPage ? allMessages.length - next : chatPerPage;
         setNext(next + addedPageCount);
     }
+    const getTime = (date) => {
+        return new Date(date).toLocaleTimeString(navigator.language, {
+            hour: '2-digit',
+            minute:'2-digit'
+        });
+    }
 
     return (
         <section style={{backgroundColor: '#eee', height: '100vh' }}>
@@ -36,8 +42,7 @@ const Chat = () => {
                                     <button className="btn btn-primary border-0 light-blue-bg w-100 my-2" onClick={addNewUser} >Enter</button>
 
                                 </div>}
-                                {currentUser && <>
-                                    {allMessages && <>
+                                {(currentUser && allMessages) && <>
                                         {next < allMessages?.length && <p><a className="mb-2 load-more  btn-primary" onClick={handleLoadMore}>Load more</a></p>}
                                         {allMessages.slice(allMessages.length - next).map((message, index) =>
                                             <div key={index}>
@@ -47,6 +52,8 @@ const Chat = () => {
                                                             <div className="p-3 me-3"
                                                                  style={{borderRadius: '15px', backgroundColor: 'rgba(57, 192, 237,.2)'}}>
                                                                 <p className="text-start small mb-0">{message.text}</p>
+                                                                { message.date &&
+                                                                    <p className="m-0 small text-end message-time">{getTime(message.date)}</p>}
                                                             </div>
                                                         </div>
 
@@ -65,6 +72,8 @@ const Chat = () => {
                                                                  style={{borderRadius: '10px', backgroundColor: '#fbfbfb'}}>
                                                                 <p style={{color: message.user.color}} className="m-0 small text-start">{message.user.name}</p>
                                                                 <p className="text-start small mb-0">{message.text}</p>
+                                                                { message.date &&
+                                                                    <p className="m-0 small text-end message-time">{getTime(message.date)}</p>}
                                                             </div>
                                                         </div>
 
@@ -72,14 +81,7 @@ const Chat = () => {
 
                                             </div>
                                         )}
-
-                                    </>}
                                 </>}
-
-
-
-
-
 
                             </div>
                             {currentUser && <div className="row p-3 mb-2 justify-content-between g-2 w-100">

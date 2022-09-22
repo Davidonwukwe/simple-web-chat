@@ -28,7 +28,8 @@ const Main = () => {
     const sendMessage = () => {
         const messageData = {
             user: currentUser,
-            text: newMessage
+            text: newMessage,
+            date: new Date()
         }
         const allMessagesFromLocal = JSON.parse(localStorage.getItem('allMessages'));
         const tempAllMessages =  allMessagesFromLocal || [];
