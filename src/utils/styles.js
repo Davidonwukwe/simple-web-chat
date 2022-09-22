@@ -78,7 +78,7 @@ export const Container = styled.div`
   
   .chat-body {
     height: 75vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     
   }
   #textArea, .chat-body {
